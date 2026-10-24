@@ -7,9 +7,8 @@ import httpStatus from "http-status";
 
 export const seedTestAdmin = async () => {
   try {
-    const isTestAdminExists = await prisma.user.findFirst({
+    const isTestAdminExists = await prisma.user.findUnique({
       where: {
-        role: Role.ADMIN,
         email: config.test_admin_email,
       },
     });
@@ -49,9 +48,8 @@ export const seedTestAdmin = async () => {
 };
 export const seedTestMod = async () => {
   try {
-    const isTestModExists = await prisma.user.findFirst({
+    const isTestModExists = await prisma.user.findUnique({
       where: {
-        role: Role.MODERATOR,
         email: config.test_mod_email,
       },
     });
@@ -92,9 +90,8 @@ export const seedTestMod = async () => {
 
 export const seedTestProvider = async () => {
   const transactionResult = await prisma.$transaction(async (tx) => {
-    const isTestProviderExists = await tx.user.findFirst({
+    const isTestProviderExists = await tx.user.findUnique({
       where: {
-        role: Role.PROVIDER,
         email: config.test_provider_email,
       },
     });
@@ -146,9 +143,8 @@ export const seedTestProvider = async () => {
 
 export const seedTestUser = async () => {
   try {
-    const isTestUserExists = await prisma.user.findFirst({
+    const isTestUserExists = await prisma.user.findUnique({
       where: {
-        role: Role.CUSTOMER,
         email: config.test_user_email,
       },
     });

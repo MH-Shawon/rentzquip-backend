@@ -13,6 +13,11 @@ router.get(
   auth(Role.CUSTOMER),
   RentalController.getAllRentalsForUser,
 );
+router.get(
+  "/provider/all",
+  auth(Role.PROVIDER),
+  RentalController.getAllRentalsForProvider,
+);
 router.patch(
   "/approve/:rentalId",
   validateRequest(rentalValidationZodSchema),

@@ -161,8 +161,33 @@ const getAllRentalsForUser = async (user: RequestUser) => {
   return getRentals;
 };
 
+const getAllRentalsForProvider = async (user: RequestUser) => {
+  const getProvider = await prisma.provider.findFirst({
+    where: {
+      userId: user.userId,
+    },
+  });
+
+  if (!getProvider) {
+    throw new AppError(httpStatus.NOT_FOUND, "Provider not found");
+  }
+
+  const getRentals = await prisma.rental.findMany({
+    where: {
+      providerId: getProvider.id,
+    },
+    include: {
+      equipment: true,
+      customer: true,
+    },
+  });
+
+  return getRentals;
+};
+
 export const RentalsService = {
   createRent,
   approveRent,
   getAllRentalsForUser,
+  getAllRentalsForProvider,
 };
